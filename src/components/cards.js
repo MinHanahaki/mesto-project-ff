@@ -1,5 +1,3 @@
-import {closeModal, openModal} from "./modal";
-
 export const initialCards = [
     {
         name: "Архыз",
@@ -28,7 +26,6 @@ export const initialCards = [
 ];
 
 const template = document.querySelector("#card-template").content;
-const imageModal = document.querySelector(".popup_type_image");
 
 export function createCard(card, deleteCallback, likeCallback, openCallback) {
     const cardNode = template.querySelector(".card").cloneNode(true);
@@ -36,7 +33,9 @@ export function createCard(card, deleteCallback, likeCallback, openCallback) {
     const image = cardNode.querySelector(".card__image");
     image.src = card.link;
     image.alt = card.name;
-    openCallback(cardNode, card.link)
+    image.addEventListener('click', function () {
+        openCallback(card.name, card.link)
+    })
 
     const titleNode = cardNode.querySelector(".card__title");
     titleNode.textContent = card.name;
@@ -61,16 +60,4 @@ export function deleteCard(cardNode) {
 export function likeCard(cardNode) {
     const likeButton = cardNode.querySelector(".card__like-button")
     likeButton.classList.toggle("card__like-button_is-active")
-}
-
-export function openCard(cardNode, link) {
-    const image = cardNode.querySelector(".card__image");
-
-    image.addEventListener('click', function () {
-        const popupImage = imageModal.querySelector('.popup__image')
-        popupImage.src = link;
-
-        openModal(imageModal);
-        closeModal(imageModal);
-    })
 }
